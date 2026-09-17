@@ -27,7 +27,7 @@ export function StickyHeader() {
         {/* Logo/Brand */}
         <Link
           href="#"
-          className="font-[var(--font-bebas)] text-base sm:text-xl md:text-2xl lg:text-3xl tracking-wider md:tracking-widest text-foreground hover:text-accent transition-colors font-black leading-none flex-shrink-0"
+          className="font-[var(--font-bebas)] text-base sm:text-xl md:text-2xl lg:text-3xl tracking-wider md:tracking-widest text-foreground hover:text-accent transition-colors font-black leading-tight min-w-0 max-w-[55%] sm:max-w-none"
           style={{ textShadow: '0 0 1px currentColor' }}
         >
           VETERAN LOCK & SAFE INC.
@@ -39,7 +39,7 @@ export function StickyHeader() {
         </div>
 
         {/* Center Info */}
-        <div className="hidden md:flex items-center gap-6">
+        <div className="hidden lg:flex items-center gap-6">
           <div className="text-center">
             <p className="font-mono text-[9px] uppercase tracking-widest text-muted-foreground">
               24/7 Emergency
@@ -68,7 +68,7 @@ export function StickyHeader() {
           </a>
           <a
             href="#quote"
-            className="px-4 py-2 border border-accent text-accent font-mono text-xs uppercase tracking-widest font-semibold hover:bg-accent hover:text-background transition-colors"
+            className="inline-flex min-h-11 shrink-0 items-center justify-center whitespace-nowrap px-3 py-2 border border-accent text-accent font-mono text-sm uppercase tracking-wide font-semibold hover:bg-accent hover:text-background transition-colors"
           >
             Get Quote
           </a>

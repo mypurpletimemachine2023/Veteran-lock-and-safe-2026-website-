@@ -24,7 +24,6 @@ export default function Page() {
       <div className="grid-bg fixed inset-0 opacity-30" aria-hidden="true" />
 
       <div className="relative z-10 pt-20">
-        <PartnerBanners />
         <HeroSection />
         <EmergencyStrip />
         <DiscountBanner />
@@ -41,6 +40,7 @@ export default function Page() {
         <ColophonSection />
         <TeamSelection />
         <FooterContact />
+        <PartnerBanners />
       </div>
     </main>
   )
