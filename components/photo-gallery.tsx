@@ -73,8 +73,7 @@ export function PhotoGallery() {
                   fill
                   sizes="(max-width: 768px) 100vw, 672px"
                   className="object-cover"
-                  priority={i === 0}
-                  loading={i === 0 ? "eager" : "lazy"}
+                  loading="lazy"
                 />
                 <div
                   className="absolute inset-0 pointer-events-none"

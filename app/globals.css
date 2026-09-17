@@ -5,6 +5,8 @@
 
 /* Custom editorial design tokens - monochrome with orange accent */
 :root {
+  --banner: #b91c1c;
+  --banner-foreground: #ffffff;
   --background: oklch(0.08 0 0);
   --foreground: oklch(0.95 0 0);
   --card: oklch(0.12 0 0);
@@ -38,7 +40,9 @@
 @theme inline {
   /* Updated font-sans and font-mono to use IBM Plex */
   --font-sans: "IBM Plex Sans", "IBM Plex Sans Fallback", sans-serif;
-  --font-mono: "IBM Plex Mono", "IBM Plex Mono Fallback", monospace;
+  --font-mono: ui-monospace, SFMono-Regular, Consolas, monospace;
+  --color-banner: var(--banner);
+  --color-banner-foreground: var(--banner-foreground);
   --font-display: "Bebas Neue", "Bebas Neue Fallback", sans-serif;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -108,6 +112,20 @@
   html::-webkit-scrollbar-thumb:hover,
   body::-webkit-scrollbar-thumb:hover {
     background: hsl(0, 0%, 32%);
+  }
+}
+
+html {
+  scroll-padding-top: 6rem;
+}
+
+section[id] {
+  scroll-margin-top: 2rem;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
   }
 }
 

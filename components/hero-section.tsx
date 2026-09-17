@@ -3,7 +3,6 @@
 import { useEffect, useRef } from "react"
 import { ScrambleTextOnHover } from "@/components/scramble-text"
 import { SplitFlapText, SplitFlapMuteToggle, SplitFlapAudioProvider } from "@/components/split-flap-text"
-import { AnimatedNoise } from "@/components/animated-noise"
 import { BitmapChevron } from "@/components/bitmap-chevron"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
@@ -35,7 +34,7 @@ export function HeroSection() {
 
   return (
     <section ref={sectionRef} id="hero" className="relative min-h-screen flex items-center pl-4 md:pl-28 pr-4 md:pr-12">
-      <AnimatedNoise opacity={0.03} />
+
 
       {/* Left vertical labels */}
       <div className="absolute left-4 md:left-6 top-1/2 -translate-y-1/2">

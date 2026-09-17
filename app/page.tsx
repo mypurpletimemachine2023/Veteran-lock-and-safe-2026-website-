@@ -1,3 +1,4 @@
+import { PartnerBanners } from "@/components/partner-banners"
 import { HeroSection } from "@/components/hero-section"
 import { SignalsSection } from "@/components/signals-section"
 import { WorkSection } from "@/components/work-section"
@@ -39,6 +40,7 @@ export default function Page() {
         <ColophonSection />
         <TeamSelection />
         <FooterContact />
+        <PartnerBanners />
       </div>
     </main>
   )
