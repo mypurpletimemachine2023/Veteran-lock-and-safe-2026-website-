@@ -1,3 +1,4 @@
+import { PartnerBanners } from "@/components/partner-banners"
 import { HeroSection } from "@/components/hero-section"
 import { SignalsSection } from "@/components/signals-section"
 import { WorkSection } from "@/components/work-section"
@@ -23,6 +24,7 @@ export default function Page() {
       <div className="grid-bg fixed inset-0 opacity-30" aria-hidden="true" />
 
       <div className="relative z-10 pt-20">
+        <PartnerBanners />
         <HeroSection />
         <EmergencyStrip />
         <DiscountBanner />
