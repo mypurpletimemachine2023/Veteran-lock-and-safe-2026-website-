@@ -1,0 +1,70 @@
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What areas do you service?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "We provide locksmith services throughout Central Florida including Orlando, Tampa, Daytona Beach, and surrounding areas. Call for availability in your specific location."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Are you available 24/7?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes! We offer 24/7 emergency locksmith services. Call 407-860-9524 anytime for immediate assistance."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How much do your services cost?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "We offer transparent, flat-fee pricing with no hidden charges. Costs vary by service type. Call or use our quote form for an accurate estimate."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Are you licensed and insured?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Absolutely. We are fully licensed, insured, and background-checked. Your security and safety are our top priority."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "How fast can you arrive?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "For emergency lockouts, we typically arrive within 15-30 minutes in the Orlando area. Response times may vary for other service areas."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can you help with car lockouts?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes! We specialize in car lockouts for all vehicle makes and models. We use non-destructive methods to get you back inside safely."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Do you offer commercial services?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Yes, we provide comprehensive commercial locksmith services including master key systems, access control, and security upgrades."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can you help with safe services?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "We are an authorized Hayman Safes provider. We offer gun safe delivery, installation, digital keypad upgrades, and relocation services."
+      }
+    }
+  ]
+}
