@@ -1,140 +1,56 @@
 'use client'
+import { useId, useRef, useState } from 'react'
+import Script from 'next/script'
+import { track } from '@vercel/analytics'
+import { services } from '@/lib/quote'
 
-import { useState, useRef, useEffect } from 'react'
-import gsap from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-
-gsap.registerPlugin(ScrollTrigger)
-
-export function QuoteForm() {
-  const [formData, setFormData] = useState({
-    name: '',
-    phone: '',
-    service: '',
-    description: '',
-  })
-  const sectionRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    const section = sectionRef.current
-    if (!section) return
-
-    gsap.fromTo(
-      section,
-      { opacity: 0, y: 30 },
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.8,
-        scrollTrigger: {
-          trigger: section,
-          start: 'top 80%',
-        },
-      }
-    )
-  }, [])
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target
-    setFormData(prev => ({ ...prev, [name]: value }))
+type Turnstile = { render: (element: HTMLElement, options: Record<string, unknown>) => string; reset: (id: string) => void; remove: (id: string) => void }
+declare global { interface Window { turnstile?: Turnstile } }
+export function QuoteForm({ id = 'quote', initialService = '' }: { id?: string; initialService?: string }) {
+  const prefix = useId()
+  const [busy, setBusy] = useState(false)
+  const [sent, setSent] = useState(false)
+  const [message, setMessage] = useState('')
+  const token = useRef('')
+  const container = useRef<HTMLDivElement>(null)
+  const widget = useRef<string | undefined>(undefined)
+  const sitekey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY
+  function mount() {
+    if (container.current && window.turnstile && widget.current === undefined && sitekey) {
+      widget.current = window.turnstile.render(container.current, { sitekey, action: 'quote', callback: (v: string) => { token.current = v }, 'expired-callback': () => { token.current = '' }, 'error-callback': () => { token.current = ''; setMessage('Security check failed. Please reload or call.') } })
+    }
   }
-
-  const handleSubmit = (e: React.FormEvent) => {
+  async function submit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault()
-    // Handle form submission
-    console.log('Form submitted:', formData)
+    if (busy || sent) return
+    if (!token.current) { setMessage('Please complete the security check. If it does not load, call 407-860-9524.'); return }
+    const form = e.currentTarget
+    setBusy(true); setMessage('')
+    const data = Object.fromEntries(new FormData(form))
+    try {
+      const response = await fetch('/api/quote', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...data, token: token.current }), signal: AbortSignal.timeout(25000) })
+      const result = await response.json()
+      setMessage(result.message || 'Please call 407-860-9524 for help.')
+      if (response.ok) { setSent(true); form.reset(); try { track('quote_submitted', { service: String(data.service) }) } catch {} }
+    } catch { setMessage('We could not confirm submission. Please call 407-860-9524 before retrying.') }
+    finally { setBusy(false); token.current = ''; if (widget.current !== undefined) window.turnstile?.reset(widget.current) }
   }
-
-  return (
-    <section ref={sectionRef} id="quote" className="py-20 relative">
-      <div className="max-w-4xl mx-auto px-4 md:px-6">
-        <div className="mb-12">
-          <h2 className="font-[var(--font-bebas)] text-4xl md:text-5xl tracking-tight text-foreground mb-4">
-            GET A FREE ESTIMATE
-          </h2>
-          <p className="font-mono text-muted-foreground max-w-lg">
-            Fill out the form below and we&apos;ll provide a transparent quote within 2 hours.
-          </p>
-        </div>
-
-        <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div>
-            <label className="block font-mono text-xs uppercase tracking-widest text-muted-foreground mb-2">
-              Name *
-            </label>
-            <input
-              type="text"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              required
-              className="w-full bg-background border border-border/40 px-4 py-3 font-mono text-sm text-foreground placeholder-muted-foreground focus:border-accent focus:outline-none transition-colors"
-              placeholder="Your name"
-            />
-          </div>
-
-          <div>
-            <label className="block font-mono text-xs uppercase tracking-widest text-muted-foreground mb-2">
-              Phone *
-            </label>
-            <input
-              type="tel"
-              name="phone"
-              value={formData.phone}
-              onChange={handleChange}
-              required
-              className="w-full bg-background border border-border/40 px-4 py-3 font-mono text-sm text-foreground placeholder-muted-foreground focus:border-accent focus:outline-none transition-colors"
-              placeholder="(407) 555-0000"
-            />
-          </div>
-
-          <div className="md:col-span-2">
-            <label className="block font-mono text-xs uppercase tracking-widest text-muted-foreground mb-2">
-              Service Type *
-            </label>
-            <select
-              name="service"
-              value={formData.service}
-              onChange={handleChange}
-              required
-              className="w-full bg-background border border-border/40 px-4 py-3 font-mono text-sm text-foreground focus:border-accent focus:outline-none transition-colors"
-            >
-              <option value="">Select a service...</option>
-              <option value="house-lockout">House Lockout</option>
-              <option value="car-lockout">Car Lockout</option>
-              <option value="commercial">Commercial Lock Services</option>
-              <option value="residential">Residential Lock Services</option>
-              <option value="safe-install">Safe Installation</option>
-              <option value="key-duplication">Key Duplication</option>
-              <option value="other">Other</option>
-            </select>
-          </div>
-
-          <div className="md:col-span-2">
-            <label className="block font-mono text-xs uppercase tracking-widest text-muted-foreground mb-2">
-              Description
-            </label>
-            <textarea
-              name="description"
-              value={formData.description}
-              onChange={handleChange}
-              className="w-full bg-background border border-border/40 px-4 py-3 font-mono text-sm text-foreground placeholder-muted-foreground focus:border-accent focus:outline-none transition-colors resize-none h-24"
-              placeholder="Tell us more about your situation..."
-            />
-          </div>
-
-          <button
-            type="submit"
-            className="md:col-span-2 px-8 py-3 bg-accent text-background font-mono text-xs uppercase tracking-widest font-bold hover:bg-accent/90 transition-colors"
-          >
-            Request Free Quote
-          </button>
-        </form>
-
-        <p className="font-mono text-xs text-muted-foreground mt-6">
-          * Required fields. We&apos;ll never share your information.
-        </p>
-      </div>
-    </section>
-  )
+  const field = 'w-full bg-background border border-border px-4 py-3 text-base focus:outline-2 focus:outline-accent'
+  return <section id={id} className="py-16 px-6 max-w-4xl mx-auto">
+    <h2 className="text-4xl font-bold mb-4">Request a locksmith estimate</h2>
+    <p className="mb-6 text-muted-foreground">Tell us what you need. We’ll confirm availability and pricing with you. For urgent help, <a className="underline" href="tel:4078609524" onClick={() => { try { track('phone_click', { placement: id }) } catch {} }}>call 407-860-9524</a>.</p>
+    <form onSubmit={submit} aria-busy={busy} className="grid md:grid-cols-2 gap-5">
+      <fieldset disabled={busy || sent} className="contents">
+        {([{ name: 'name', label: 'Your name', autoComplete: 'name', maxLength: 100 }, { name: 'phone', label: 'Phone number', autoComplete: 'tel', maxLength: 30 }, { name: 'location', label: 'Service city or ZIP code', autoComplete: 'address-level2', maxLength: 150 }] as const).map(f => <div key={f.name}><label htmlFor={`${prefix}-${f.name}`} className="block mb-2">{f.label} *</label><input {...f} id={`${prefix}-${f.name}`} type={f.name === 'phone' ? 'tel' : 'text'} required className={field} /></div>)}
+        <div><label htmlFor={`${prefix}-service`} className="block mb-2">Service *</label><select id={`${prefix}-service`} name="service" required defaultValue={initialService} className={field}><option value="">Choose a service</option>{services.map(s => <option key={s} value={s}>{s.replaceAll('-', ' ')}</option>)}</select></div>
+        <div className="md:col-span-2"><label htmlFor={`${prefix}-description`} className="block mb-2">What do you need help with?</label><textarea id={`${prefix}-description`} name="description" maxLength={2000} rows={4} className={field} /><p className="text-sm mt-2">Please leave out lock combinations, access codes and payment details.</p></div>
+        <div hidden aria-hidden="true"><label>Website<input name="website" tabIndex={-1} autoComplete="off" /></label></div>
+        <div className="md:col-span-2"><div ref={container} />{!sitekey && <p>Online requests are unavailable until security setup is complete. Please call.</p>}</div>
+        <p className="md:col-span-2 text-sm">By submitting, you ask Veteran Lock &amp; Safe to contact you about this request. Your details are processed by our security and email providers. No marketing signup.</p>
+        <button disabled={!sitekey} className="md:col-span-2 bg-accent text-background font-bold p-4 disabled:opacity-50">{busy ? 'Submitting…' : sent ? 'Request submitted' : 'Request estimate'}</button>
+      </fieldset>
+      <p role={sent ? 'status' : 'alert'} aria-live="polite" className="md:col-span-2">{message}</p>
+    </form>
+    {sitekey && <Script src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit" onReady={mount} />}
+  </section>
 }

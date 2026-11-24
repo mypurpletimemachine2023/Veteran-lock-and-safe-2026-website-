@@ -8,6 +8,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "car-lockout",
     "commercial-locksmith",
     "safe-locksmith",
+    "access-control",
   ]
 
   const areas = [

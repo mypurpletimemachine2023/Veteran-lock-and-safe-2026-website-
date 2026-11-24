@@ -148,7 +148,7 @@ export function SignalsSection() {
           scrollRef.current = el
           cardsRef.current = el
         }}
-        className="flex gap-8 overflow-x-auto pb-8 pr-12 scrollbar-hide"
+        className="flex flex-col gap-8 overflow-x-clip pb-8 pr-6 md:flex-row md:overflow-x-auto md:pr-12 scrollbar-hide"
         style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
       >
         {signals.map((signal, index) => (
@@ -169,7 +169,7 @@ function SignalCard({
   return (
     <article
       className={cn(
-        "group relative flex-shrink-0 w-80",
+        "group relative w-full min-w-0 flex-shrink-0 md:w-80",
         "transition-transform duration-500 ease-out",
         "hover:-translate-y-2",
       )}

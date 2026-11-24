@@ -1,3 +1,4 @@
+import { PartnerBanners } from "@/components/partner-banners"
 import { HeroSection } from "@/components/hero-section"
 import { SignalsSection } from "@/components/signals-section"
 import { WorkSection } from "@/components/work-section"
@@ -31,6 +32,11 @@ export default function Page() {
         <PhotoGallery />
         <WorkSection />
         <HowItWorks />
+        <nav aria-label="Service details" className="px-6 md:px-28 py-8 flex flex-wrap gap-6">
+          <a className="underline" href="/services/commercial-locksmith">Commercial locksmithing</a>
+          <a className="underline" href="/services/safe-locksmith">Safe services</a>
+          <a className="underline" href="/services/access-control">Access control inquiries</a>
+        </nav>
         <QuoteForm />
         <TestimonialsSection />
         <FAQSection />
@@ -39,6 +45,7 @@ export default function Page() {
         <ColophonSection />
         <TeamSelection />
         <FooterContact />
+        <PartnerBanners />
       </div>
     </main>
   )

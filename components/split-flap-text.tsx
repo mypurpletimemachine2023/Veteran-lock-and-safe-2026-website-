@@ -151,20 +151,17 @@ function SplitFlapTextInner({ text, className = "", speed = 50, sequenceWords = 
   useEffect(() => {
     if (sequenceWords.length === 0) return
     
-    const sequenceInterval = setInterval(() => {
-      setCurrentSequenceIndex((prev) => {
-        const nextIndex = prev + 1
-        if (nextIndex >= sequenceWords.length) {
-          return prev // Stop at final word (LOCKSMITH)
-        }
-        setDisplayText(sequenceWords[nextIndex])
-        setAnimationKey((k) => k + 1)
-        return nextIndex
-      })
-    }, 350) // Change word every 350ms for fast cycling
+    if (currentSequenceIndex >= sequenceWords.length - 1) return
 
-    return () => clearInterval(sequenceInterval)
-  }, [sequenceWords])
+    const timer = setTimeout(() => {
+      const nextIndex = currentSequenceIndex + 1
+      setDisplayText(sequenceWords[nextIndex])
+      setAnimationKey((key) => key + 1)
+      setCurrentSequenceIndex(nextIndex)
+    }, 350)
+
+    return () => clearTimeout(timer)
+  }, [sequenceWords, currentSequenceIndex])
 
   return (
     <div

@@ -1,32 +1,10 @@
 "use client"
 
-import { useState } from "react"
+import { QuoteForm } from "@/components/quote-form"
 import Image from "next/image"
 import { Phone } from "lucide-react"
 
 export function FooterContact() {
-  const [formData, setFormData] = useState({
-    name: "",
-    phone: "",
-    email: "",
-    service: "",
-    message: "",
-  })
-  const [submitted, setSubmitted] = useState(false)
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
-    const { name, value } = e.target
-    setFormData((prev) => ({ ...prev, [name]: value }))
-  }
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    // TODO: Add form submission logic
-    setSubmitted(true)
-    setTimeout(() => setSubmitted(false), 3000)
-    setFormData({ name: "", phone: "", email: "", service: "", message: "" })
-  }
-
   const seoKeywords = [
     "Locksmith near me",
     "24/7 Emergency locksmith Orlando",
@@ -86,74 +64,7 @@ export function FooterContact() {
 
         {/* Right: Contact Form */}
         <div>
-          <form onSubmit={handleSubmit} className="space-y-4">
-            <div>
-              <input
-                type="text"
-                name="name"
-                placeholder="Your Name"
-                value={formData.name}
-                onChange={handleChange}
-                required
-                className="w-full bg-transparent border border-border/40 px-4 py-3 font-mono text-sm text-foreground placeholder:text-muted-foreground focus:border-accent focus:outline-none transition-colors duration-200"
-              />
-            </div>
-            <div>
-              <input
-                type="tel"
-                name="phone"
-                placeholder="Phone Number"
-                value={formData.phone}
-                onChange={handleChange}
-                className="w-full bg-transparent border border-border/40 px-4 py-3 font-mono text-sm text-foreground placeholder:text-muted-foreground focus:border-accent focus:outline-none transition-colors duration-200"
-              />
-            </div>
-            <div>
-              <input
-                type="email"
-                name="email"
-                placeholder="Email Address"
-                value={formData.email}
-                onChange={handleChange}
-                className="w-full bg-transparent border border-border/40 px-4 py-3 font-mono text-sm text-foreground placeholder:text-muted-foreground focus:border-accent focus:outline-none transition-colors duration-200"
-              />
-            </div>
-            <div>
-              <select
-                name="service"
-                value={formData.service}
-                onChange={handleChange}
-                className="w-full bg-transparent border border-border/40 px-4 py-3 font-mono text-sm text-foreground focus:border-accent focus:outline-none transition-colors duration-200"
-              >
-                <option value="" disabled>
-                  Select a service
-                </option>
-                <option value="house-lockout">House Lockout</option>
-                <option value="car-lockout">Car Lockout</option>
-                <option value="residential">Residential Locksmith</option>
-                <option value="commercial">Commercial Locksmith</option>
-                <option value="safe-services">Safe Services</option>
-                <option value="key-duplication">Key Duplication</option>
-                <option value="emergency">Emergency Service</option>
-              </select>
-            </div>
-            <div>
-              <textarea
-                name="message"
-                placeholder="Tell us about your locksmith needs..."
-                value={formData.message}
-                onChange={handleChange}
-                rows={3}
-                className="w-full bg-transparent border border-border/40 px-4 py-3 font-mono text-sm text-foreground placeholder:text-muted-foreground focus:border-accent focus:outline-none transition-colors duration-200 resize-none"
-              />
-            </div>
-            <button
-              type="submit"
-              className="w-full bg-accent text-accent-foreground py-3 font-mono text-xs uppercase tracking-widest hover:bg-accent/90 transition-colors duration-200"
-            >
-              {submitted ? "Message Sent" : "Send Inquiry"}
-            </button>
-          </form>
+          <QuoteForm id="footer-quote" />
         </div>
       </div>
 

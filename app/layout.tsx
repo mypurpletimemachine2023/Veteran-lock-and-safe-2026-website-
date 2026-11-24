@@ -1,9 +1,8 @@
 import type React from "react"
 import type { Metadata } from "next"
 import Image from "next/image"
-import { IBM_Plex_Sans, IBM_Plex_Mono, Bebas_Neue } from "next/font/google"
+import { IBM_Plex_Sans, Bebas_Neue } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
-import { SmoothScroll } from "@/components/smooth-scroll"
 import { StickyHeader } from "@/components/sticky-header"
 import { FloatingCallButton } from "@/components/floating-call-button"
 import "./globals.css"
@@ -12,11 +11,6 @@ const ibmPlexSans = IBM_Plex_Sans({
   weight: ["400", "500", "600", "700"],
   subsets: ["latin"],
   variable: "--font-ibm-plex-sans",
-})
-const ibmPlexMono = IBM_Plex_Mono({
-  weight: ["400", "500"],
-  subsets: ["latin"],
-  variable: "--font-ibm-plex-mono",
 })
 const bebasNeue = Bebas_Neue({ weight: "400", subsets: ["latin"], variable: "--font-bebas" })
 
@@ -66,7 +60,7 @@ export default function RootLayout({
               "@context": "https://schema.org",
               "@type": "LocalBusiness",
               name: "Veteran Lock & Safe Inc",
-              image: "/logo.png",
+              image: "https://veteranlockandsafe.com/images/veteran-lock-logo.png",
               description: "Family-owned locksmith providing 24/7 emergency services in Central Florida",
               address: {
                 "@type": "PostalAddress",
@@ -137,7 +131,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${ibmPlexSans.variable} ${bebasNeue.variable} ${ibmPlexMono.variable} font-sans antialiased overflow-x-hidden`}
+        className={`${ibmPlexSans.variable} ${bebasNeue.variable} font-sans antialiased overflow-x-hidden`}
       >
         {/* Eagle background */}
         <div className="fixed inset-0 pointer-events-none z-0 opacity-5">
@@ -146,8 +140,8 @@ export default function RootLayout({
             alt=""
             fill
             className="object-cover"
-            quality={75}
-            priority
+            sizes="100vw"
+            loading="lazy"
           />
         </div>
         
@@ -166,7 +160,7 @@ export default function RootLayout({
         
         <StickyHeader />
         <FloatingCallButton />
-        <SmoothScroll>{children}</SmoothScroll>
+        {children}
         <Analytics />
       </body>
     </html>
